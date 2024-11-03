@@ -1,5 +1,4 @@
-<?php
-    ob_start();
-    include 'templates/home.html.php';
-    $output = ob_get_clean();
-?>
+
+<?php $title = "login"; include '../templates/header.php'; ?>
+
+<?php include '../templates/footer.php'; ?>
