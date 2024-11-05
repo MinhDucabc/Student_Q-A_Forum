@@ -1,0 +1,93 @@
+/* Basic reset and styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+
+}
+
+.post-list {
+    display: flex;
+    flex-direction: column;
+}
+h1 {
+    color: #4A90E2;
+    margin-bottom: 20px;
+}
+
+/* Card styling for each post */
+.post-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.post-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.post-title a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+.post-title a:hover {
+    color: #4A90E2;
+}
+
+.post-content {
+    font-size: 1em;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.post-meta {
+    font-size: 0.9em;
+    color: #999;
+}
+
+.post-meta a {
+    color: #4A90E2;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.post-meta a:hover {
+    color: #333;
+}
+
+.read-more {
+    color: #4A90E2;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: color 0.2s;
+}
+
+.read-more:hover {
+    color: #333;
+}

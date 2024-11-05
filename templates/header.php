@@ -8,32 +8,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
+    <header class="bg-light py-3 border-bottom">
         <?php $title = $title ?? ''; ?>
         <?php if (in_array($title, ['login', 'signup', 'about', 'contact'])): ?>
             <div class="page-title">
-                <a href="index.php" class="btn"><i class="fa-solid fa-rotate-left"></i></a>
+                <a href="index.php" class="btn btn-primary"><i class="fas fa-undo-alt"></i></a>
             </div>
         <?php else:?>
-            <div class="logo">
-                <h1>Logo Name</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="social-media">
-                <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#"><i class="fa-brands fa-github"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            </div>
-            <div class="auth-buttons">
-                <a href="login.php" class="btn">Login</a>
-                <a href="signup.php" class="btn">Sign Up</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <h1 class="h4 mb-0">Logo Name</h1>
+                </div>
+                <nav>
+                    <ul class="nav">
+                        <li class="nav-item"><a href="../includes/home.php" class="nav-link text-primary font-weight-bold">Home</a></li>
+                        <li class="nav-item"><a href="../includes/about.php" class="nav-link text-primary font-weight-bold">About</a></li>
+                        <li class="nav-item"><a href="../templates/contact.html.php" class="nav-link text-primary font-weight-bold">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="text-dark mr-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-dark mr-3"><i class="fab fa-github"></i></a>
+                    <a href="#" class="text-dark mr-3"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="auth-buttons d-flex align-items-center">
+                    <a href="login.php" class="btn btn-primary ml-3">Login</a>
+                    <a href="signup.php" class="btn btn-primary ml-3">Sign Up</a>
+                </div>
             </div>
         <?php endif;?>
     </header>

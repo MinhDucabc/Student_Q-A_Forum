@@ -10,7 +10,7 @@ try {
     
     $pdo = new PDO($dsn, $username, $password);
 
-    echo "Connected to the database<br>";
+    // echo "Connected successfully"; // Display message if connection is successful
     // Query to fetch all department data
     $sql = 'SELECT * FROM posts';
     $posts = $pdo->query($sql);
