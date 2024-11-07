@@ -1,26 +1,82 @@
-<?php $title = "signup"; include '../templates/header.php'; ?>
-<?php 
-    include '../templates/signup.html.php'; 
-    include '../includes/db_connection.php'; // Include the database connection file
-    // $db = getDbConnection(); // Initialize the $db variable
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password'])) {
-            $username = $_POST['username'];
-            $email = $_POST['email'];
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
+<?php include '../templates/header.php'; ?>
+<?php
+// Start session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-            // Insert the user into the database
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-            if ($stmt->execute([$username, $email, $password])) {
-                $error_messages = "Registration successful! <a href='login.php'>Login here</a>";
-            } else {
-                $error_messages = "Registration failed. Username or email may already be taken.";
-            }
+
+// Include database connection file
+include 'db_connection.php';
+
+// Initialize an error messages array
+$error_messages = [];
+
+// Check if the form is submitted via POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve and sanitize form inputs
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+
+    // Validate username
+    if (empty($username)) {
+        $error_messages[] = "Username is required.";
+    }
+    
+    // Validate email
+    if (empty($email)) {
+        $error_messages[] = "Email is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error_messages[] = "A valid email address is required.";
+    }
+    
+    // Validate password
+    if (empty($password)) {
+        $error_messages[] = "Password is required.";
+    } elseif (strlen($password) < 6) {
+        $error_messages[] = "Password must be at least 6 characters long.";
+    }
+    
+    // Check if there are any error messages
+    if (!empty($error_messages)) {
+        // Store errors in session
+        $_SESSION['error_messages'] = $error_messages;
+        header("Location: signup.php");
+        exit();
+
+    } else {
+        // Check if username or email already exists
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE username = :username OR email = :email");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        
+        if ($stmt->fetch()) {
+            $_SESSION['error_messages'] = ["Username or email is already taken."];
+            header("Location: signup.php");
+            exit();
         } else {
-            $error_messages = "Please fill in all required fields.";
+            // Insert the new user into the database without hashing the password
+            $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
+
+            if ($stmt->execute()) {
+                // Redirect to login page or homepage after successful signup
+                $_SESSION['success'] = "Signup successful! You can now log in.";
+                header("Location: login.php");
+                exit();
+            } else {
+                $_SESSION['error_messages'] = ["There was an error creating your account. Please try again."];
+                header("Location: signup.php");
+                exit();
+            }
         }
     }
-?>
+}
 
+include '../templates/signup.html.php';
+?>
 <?php include '../templates/footer.php'; ?>

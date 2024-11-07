@@ -3,28 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create or Edit Post</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style></style>
+    <title><?php echo isset($isEdit) ? 'Edit Post' : 'Create Post'; ?></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1 class="text-center mt-4"><?php echo $mode; ?></h1>
     <div class="container mt-5">
-        <form method="POST" action="../includes/post.php">
-            <input type="hidden" name="post_id" value="<?php echo isset($post_id) ? $post_id : '' ?>">
-
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" required>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><?php echo isset($isEdit) ? 'Edit Your Post' : 'Create a New Post'; ?></h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="<?php echo isset($isEdit) ? 'post_edit.php?id=' . $post['id'] : 'post_create.php'; ?>" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="title">Post Title</label>
+                                <input type="text" name="title" id="title" class="form-control" value="<?php echo isset($post['title']) ? htmlspecialchars($post['title']) : ''; ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Post Content</label>
+                                <textarea name="content" id="content" rows="5" class="form-control" required><?php echo isset($post['content']) ? htmlspecialchars($post['content']) : ''; ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="module">Module</label>
+                                <select name="module" id="module" class="form-control" required>
+                                    <?php foreach ($modules as $module): ?>
+                                        <option value="<?php echo $module['id']; ?>" <?php echo isset($post['module_id']) && $post['module_id'] == $module['id'] ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($module['module_name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Upload Image</label>
+                                <input type="file" name="image" id="image" class="form-control-file">
+                            </div>
+                            <div class="form-group text-center mt-4">
+                                <button type="submit" class="btn btn-success">
+                                    <?php echo isset($isEdit) ? 'Update Post' : 'Create Post'; ?>
+                                </button>
+                                <a href="home.php" class="btn btn-secondary ml-2">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="content">Content:</label>
-                <textarea class="form-control" id="content" name="content" rows="5" required><?php echo htmlspecialchars($content); ?></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary mt-3"></button>
-        </form>
+        </div>
     </div>
 </body>
 </html>

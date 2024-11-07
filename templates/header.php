@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +15,7 @@
 <body>
     <header class="bg-light py-3 border-bottom">
         <?php $title = $title ?? ''; ?>
-        <?php if (in_array($title, ['login', 'signup', 'about', 'contact'])): ?>
-            <div class="page-title">
-                <a href="index.php" class="btn btn-primary"><i class="fas fa-undo-alt"></i></a>
-            </div>
-        <?php else:?>
+        <?php if ($title === 'home'):?>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
                     <h1 class="h4 mb-0">Logo Name</h1>
@@ -32,9 +33,19 @@
                     <a href="#" class="text-dark mr-3"><i class="fab fa-instagram"></i></a>
                 </div>
                 <div class="auth-buttons d-flex align-items-center">
-                    <a href="login.php" class="btn btn-primary ml-3">Login</a>
-                    <a href="signup.php" class="btn btn-primary ml-3">Sign Up</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <!-- Display Profile button if user is logged in -->
+                        <a href="profile.php" class="btn btn-primary ml-3">Profile</a>
+                        <a href="logout.php" class="btn btn-secondary ml-3">Logout</a>
+                    <?php else: ?>
+                        <a href="login.php" class="btn btn-primary ml-3">Login</a>
+                        <a href="signup.php" class="btn btn-primary ml-3">Sign Up</a>
+                    <?php endif; ?>
                 </div>
+            </div>
+        <?php else: ?>
+            <div class="page-title">
+                <a href="index.php" class="btn btn-primary"><i class="fas fa-undo-alt"></i></a>
             </div>
         <?php endif;?>
     </header>
