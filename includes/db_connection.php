@@ -1,4 +1,5 @@
 <?php
+
 try {
     // Connect to the database
     $servername = "localhost";

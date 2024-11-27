@@ -12,10 +12,10 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0"><?php echo isset($isEdit) ? 'Edit Your Post' : 'Create a New Post'; ?></h4>
+                        <h4 class="mb-0"><?= $is_edit ? 'Edit Your Post' : 'Create a New Post'; ?></h4>
                     </div>
                     <div class="card-body">
-                        <form action="<?php echo isset($isEdit) ? 'post_edit.php?id=' . $post['id'] : 'post_create.php'; ?>" method="POST" enctype="multipart/form-data">
+                        <form action="<?php echo $is_edit ? 'post_edit.php?id=' . $post['id'] : 'post_create.php'; ?>" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="title">Post Title</label>
                                 <input type="text" name="title" id="title" class="form-control" value="<?php echo isset($post['title']) ? htmlspecialchars($post['title']) : ''; ?>" required>
@@ -36,11 +36,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="image">Upload Image</label>
-                                <input type="file" name="image" id="image" class="form-control-file">
+                                <input type="file" name="image" id="image" class="form-control-file" >
                             </div>
                             <div class="form-group text-center mt-4">
                                 <button type="submit" class="btn btn-success">
-                                    <?php echo isset($isEdit) ? 'Update Post' : 'Create Post'; ?>
+                                    <?php echo $is_edit ? 'Update Post' : 'Create Post'; ?>
                                 </button>
                                 <a href="home.php" class="btn btn-secondary ml-2">Cancel</a>
                             </div>

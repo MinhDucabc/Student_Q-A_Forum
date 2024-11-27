@@ -15,6 +15,12 @@
             <a href="../includes/<?php echo (isset($_SESSION['user_id'])) ? "post_create.php" : "login.php"; ?>" 
                class="btn btn-primary">Create Post</a>
         </div>
+      
+        <form method="get" action="home.php" class="w-100 d-flex mb-2 mt-4">
+            <input type="text" name="search_query" class="form-control mr-2" placeholder="Search..." value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
     <?php else: ?>
         <div class="header">
             <a href="../includes/index.php" class="btn btn-secondary">Return to Home</a>

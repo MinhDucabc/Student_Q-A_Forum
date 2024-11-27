@@ -10,7 +10,6 @@ include 'db_connection.php';
 
 $error_messages = [];
 $is_edit = false;  // Flag to indicate this is a "create" action
-$modules = []; // Array to store module options
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = trim($_POST['content']);
     $module_id = $_POST['module'] ?? null;
     $user_id = $_SESSION['user_id'] ?? null;
-    $image_url = null;
+    $image_url = $_POST['image_url'] ?? null;
 
     if (empty($title)) {
         $error_messages[] = "Title is required.";
@@ -43,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':content', $content, PDO::PARAM_STR);
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindParam(':module_id', $module_id, PDO::PARAM_INT);
-        $stmt->bindParam(':image_url', $image_url, PDO::PARAM_LOB); // Store image data as a blob
+        $stmt->bindParam(':image_url', $image_url, PDO::PARAM_LOB); // Store image data as a longblob
         $stmt->execute();
 
         header("Location: home.php");

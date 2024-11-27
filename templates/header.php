@@ -24,24 +24,42 @@ if (session_status() === PHP_SESSION_NONE) {
                     <ul class="nav">
                         <li class="nav-item"><a href="../includes/home.php" class="nav-link text-primary font-weight-bold">Home</a></li>
                         <li class="nav-item"><a href="../includes/about.php" class="nav-link text-primary font-weight-bold">About</a></li>
-                        <li class="nav-item"><a href="../templates/contact.html.php" class="nav-link text-primary font-weight-bold">Contact</a></li>
+                        <li class="nav-item"><a href="../includes/contact.php" class="nav-link text-primary font-weight-bold">Contact</a></li>
                     </ul>
                 </nav>
                 <div class="d-flex align-items-center">
                     <a href="#" class="text-dark mr-3"><i class="fab fa-facebook"></i></a>
                     <a href="#" class="text-dark mr-3"><i class="fab fa-github"></i></a>
                     <a href="#" class="text-dark mr-3"><i class="fab fa-instagram"></i></a>
-                </div>
+                </div>  
+                
+                <?php
+                    // Fetch user role (admin or not) from the database
+                    require_once '../includes/db_connection.php';
+                    if (isset($_SESSION['user_id'])) {
+                        $userId = $_SESSION['user_id'];
+                        $stmt = $pdo->prepare('SELECT admin FROM users WHERE id = :id');
+                        $stmt->execute(['id' => $userId]);
+                        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        // If the user is an admin, show the Admin button
+                        if ($user && $user['admin'] == 1): ?>
+                            <a href="admin.php" class="btn btn-danger ml-3">Admin Panel</a>
+                        <?php endif; 
+                    }
+                    ?>
                 <div class="auth-buttons d-flex align-items-center">
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <!-- Display Profile button if user is logged in -->
-                        <a href="profile.php" class="btn btn-primary ml-3">Profile</a>
-                        <a href="logout.php" class="btn btn-secondary ml-3">Logout</a>
-                    <?php else: ?>
-                        <a href="login.php" class="btn btn-primary ml-3">Login</a>
-                        <a href="signup.php" class="btn btn-primary ml-3">Sign Up</a>
-                    <?php endif; ?>
-                </div>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <!-- Display Profile button if user is logged in -->
+                    <a href="profile.php" class="btn btn-primary ml-3">Profile</a>
+                    <a href="logout.php" class="btn btn-secondary ml-3">Logout</a>
+                    
+                    
+                <?php else: ?>
+                    <a href="login.php" class="btn btn-primary ml-3">Login</a>
+                    <a href="signup.php" class="btn btn-primary ml-3">Sign Up</a>
+                <?php endif; ?>
+            </div>
             </div>
         <?php else: ?>
             <div class="page-title">
