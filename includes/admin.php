@@ -14,7 +14,7 @@ try {
     $posts = $postsStmt->fetchAll(PDO::FETCH_ASSOC);
     
     // Fetch all users with role information
-    $usersStmt = $pdo->prepare('SELECT id, username, email FROM users');
+    $usersStmt = $pdo->prepare('SELECT id, username, email, `admin` FROM users');
     $usersStmt->execute();
     $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
     
@@ -50,6 +50,22 @@ if (isset($_GET['delete_module_id'])) {
     header('Location: admin.php'); // Refresh the page after deletion
 }
 
+// Handle Addition (post, user, module)
+if (isset($_POST['add_post'])) {
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $image = $_FILES['image'];
+    $module = $_POST['module'];
+    $userId = $_POST['user_id'];
+
+    // Handle image upload
+    $imageData = file_get_contents($image['tmp_name']);
+    $imageType = pathinfo($image['name'], PATHINFO_EXTENSION);
+
+    $addPostStmt = $pdo->prepare('INSERT INTO posts (title, content, image_url, module_id, user_id) VALUES (:title, :content, :image_url, :module_id, :user_id)');
+    $addPostStmt->execute(['title' => $title, 'content' => $content, 'image_url' => $imageData, 'module_id' => $module, 'user_id' => $userId]);
+    header('Location: admin.php'); // Refresh the page after addition
+}
 
 // Determine the view type (default to 'posts' if not specified)
 $view = $_GET['view'] ?? 'posts'; // Default to posts view if no 'view' parameter is passed

@@ -66,11 +66,16 @@
         <!-- Users Tab -->
         <div class="mt-4">
             <h2>All Users</h2>
+            <!-- Add User Button -->
+            <div class="mb-3">
+                <a href="add_user.php" class="btn btn-primary">Add New User</a>
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>Role</th>
                         <th>Actions</th>
 
                     </tr>
@@ -80,8 +85,12 @@
                         <tr>
                             <td><?php echo htmlspecialchars($user['username']); ?></td>
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
- 
                             <td>
+                                <?php echo $user['admin'] == 1 ? 'Admin' : 'User'; ?> <!-- Display Admin/User -->
+                            </td>
+
+                            <td>
+                                <a href="edit_user.php?id=<?php echo $user['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                 <a href="?delete_user_id=<?php echo $user['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
                             </td>
                         </tr>
@@ -93,6 +102,9 @@
         <!-- Modules Tab -->
         <div class="mt-4">
             <h2>All Modules</h2>
+            <div class="mb-3">
+                <a href="add_module.php" class="btn btn-primary">Add New Module</a>
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -107,6 +119,7 @@
                             <td><?php echo htmlspecialchars($module['module_name']); ?></td>
                             <td><?php echo htmlspecialchars($module['description']); ?></td>
                             <td>
+                                <a href="edit_module.php?id=<?php echo $module['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                 <a href="?delete_module_id=<?php echo $module['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this module?')">Delete</a>
                             </td>
                         </tr>

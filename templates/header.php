@@ -47,6 +47,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             <a href="admin.php" class="btn btn-danger ml-3">Admin Panel</a>
                         <?php endif; 
                     }
+                    
                     ?>
                 <div class="auth-buttons d-flex align-items-center">
                 <?php if (isset($_SESSION['user_id'])): ?>

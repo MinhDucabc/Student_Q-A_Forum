@@ -10,8 +10,8 @@
     <footer class="bg-dark text-white text-center py-4">
         <p>&copy; <?php echo date("Y"); ?> Your Company. All rights reserved.</p>
         <ul class="list-inline">
-            <li class="list-inline-item"><a href="/about" class="text-white">About Us</a></li>
-            <li class="list-inline-item"><a href="/contact" class="text-white">Contact</a></li>
+            <li class="list-inline-item"><a href="about.php" class="text-white">About Us</a></li>
+            <li class="list-inline-item"><a href="contact.php" class="text-white">Contact</a></li>
         </ul>
         <div class="mt-3">
             <p>Created by: John Doe</p>
