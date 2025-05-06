@@ -19,14 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'] ?? null;
     $image_url = $_POST['image_url'] ?? null;
 
-    if (empty($title)) {
-        $error_messages[] = "Title is required.";
-    }
-    if (empty($content)) {
-        $error_messages[] = "Content is required.";
-    }
-    if (empty($module_id)) {
-        $error_messages[] = "Module is required.";
+    if (empty($title) || empty($content) || empty($module_id)) {
+        $error_messages[] = 'All fields are required.';
+    } elseif (strlen($title) > 255) {
+        $error_messages[] = 'Title must be  not exceed 255 characters.';
+    } elseif (strlen($content) < 50) {
+        $error_messages[] = 'Content must be at least 50 characters.';
+    } elseif (strlen($content) > 65535) {
+        $error_messages[] = 'Content must not exceed 65535 characters.';
     }
 
     // Handle file upload if image is provided

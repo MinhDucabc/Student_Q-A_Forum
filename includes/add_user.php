@@ -2,6 +2,7 @@
 <?php
 require 'db_connection.php'; // Database connection
 
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
@@ -25,8 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // If no errors, insert the new user into the database
     if (empty($errors)) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
         $stmt = $pdo->prepare("INSERT INTO users (username, email, password, admin) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$username, $email, $password, $role]);
+        $stmt->execute([$username, $email, $hashedPassword, $role]);
         header('Location: admin.php?view=users');
         exit;
     }

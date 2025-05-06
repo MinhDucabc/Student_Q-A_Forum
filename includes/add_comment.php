@@ -1,55 +1,34 @@
 <?php
-include 'db_connection.php';
+require 'db_connection.php'; // Include database connection and session start
 
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Set the content type to JSON
-header('Content-Type: application/json');
-
-// Buffer the output to catch unexpected HTML
-ob_start();
-
-// Get the JSON data from the request body
-$data = json_decode(file_get_contents("php://input"), true);
-
-// Extract the data
-$post_id = isset($data['post_id']) ? intval($data['post_id']) : null;
-$user_id = isset($data['user_id']) ? intval($data['user_id']) : null;
-$comment_text = isset($data['content']) ? trim($data['content']) : null;
-
-$response = [];
-
-try {
-    // Validate inputs
-    if (!$post_id || !$user_id || empty($comment_text)) {
-        throw new Exception('Invalid input');
-    }
-
-    // Prepare and execute the insert statement
-    $stmt = $pdo->prepare("INSERT INTO comments (post_id, user_id, comment_text) VALUES (:post_id, :user_id, :comment_text)");
-    $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
-    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->bindParam(':comment_text', $comment_text, PDO::PARAM_STR);
-
-    if ($stmt->execute()) {
-        $response = ['status' => 'success'];
-    } else {
-        throw new Exception('Failed to add comment');
-    }
-} catch (Exception $e) {
-    // Capture any errors
-    $response = ['status' => 'error', 'message' => $e->getMessage()];
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-// Check for unexpected output
-$unexpectedOutput = ob_get_clean();
-if (!empty($unexpectedOutput)) {
-    $response['debug'] = $unexpectedOutput;
-}
+// Check if the form was submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve data from the form
+    $post_id = intval($_POST['post_id']);
+    $comment_text = trim($_POST['comment_text']);
 
-// Send JSON response
-echo json_encode($response);
-?>
+    // Validate input
+    if (empty($comment_text)) {
+        $_SESSION['error_message'] = 'Comment cannot be empty.';
+        header("Location: post_detail.php?id=$post_id");
+        exit;
+    }
+
+    // Insert comment into the database
+    try {
+        $stmt = $pdo->prepare("INSERT INTO comments (post_id, user_id, comment_text, created_at) VALUES (?, ?, ?, NOW())");
+        $stmt->execute([$post_id, $_SESSION['user_id'], $comment_text]);
+
+        // Redirect back to the post page with success message
+        $_SESSION['success_message'] = 'Comment added successfully.';
+        header("Location: post_detail.php?id=$post_id");
+    } catch (PDOException $e) {
+        // Handle database errors
+        $_SESSION['error_message'] = 'Failed to add comment. Please try again.';
+        header("Location: post_detail.php?id=$post_id");
+    }
+}

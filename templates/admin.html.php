@@ -42,7 +42,6 @@
                         <th>Title</th>
                         <th>Content</th>
                         <th>Module</th>
-                        <th>Created At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -52,7 +51,6 @@
                             <td><?php echo htmlspecialchars($post['title']); ?></td>
                             <td><?php echo htmlspecialchars(substr($post['content'], 0, 50)) . '...'; ?></td>
                             <td><?php echo htmlspecialchars($post['module_name']); ?></td>
-                            <td><?php echo htmlspecialchars($post['created_at']); ?></td>
                             <td>
                                 <a href="post_detail.php?id=<?php echo $post['id']; ?>" class="btn btn-info btn-sm">View</a>
                                 <a href="?delete_post_id=<?php echo $post['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this post?')">Delete</a>

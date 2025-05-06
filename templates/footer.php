@@ -14,8 +14,8 @@
             <li class="list-inline-item"><a href="contact.php" class="text-white">Contact</a></li>
         </ul>
         <div class="mt-3">
-            <p>Created by: John Doe</p>
-            <p>Contact: <a href="mailto:johndoe@example.com" class="text-white">johndoe@example.com</a></p>
+            <p>Created by: True Admin</p>
+            <p>Contact: <a href="mailto:frostgamer150@gmail.com" class="text-white">frostgamer150@gmail.com</a></p>
         </div>
         <div class="mt-3">
             <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>

@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Check if user exists and the password is correct
-        if ($user && $password === $user['password']) {
+        if ($user && password_verify($password, $user['password'])) {
             // Store user info in session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];

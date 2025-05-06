@@ -57,11 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: signup.php");
             exit();
         } else {
-            // Insert the new user into the database without hashing the password
+            // Hash the password
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            // Insert the new user into the database with the hashed password
             $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':password', $password);
+            $stmt->bindParam(':password', $hashedPassword); // Use the hashed password
+
 
             if ($stmt->execute()) {
                 // Redirect to login page or homepage after successful signup

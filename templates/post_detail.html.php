@@ -14,8 +14,9 @@
             <div class="card-body">
                 <!-- edit -->
                 <?php if (isset($_SESSION['user_id']) && $post['user_id'] == $_SESSION['user_id']): ?>
-                                <a href="post_edit.php?id=<?php echo $post['id']; ?>" class="btn btn-primary float-right">Edit</a>
-                            <?php endif; ?>
+                    <a href="post_delete.php?id=<?php echo $post['id']; ?>" class="btn btn-danger float-right">Delete</a>
+                    <a href="post_edit.php?id=<?php echo $post['id']; ?>" class="btn btn-primary float-right">Edit</a>
+                <?php endif; ?>
         
                 <h2 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h2>
                 <p class="card-text"><?php echo htmlspecialchars($post['content']); ?></p>
@@ -37,15 +38,13 @@
             <h4>Comments</h4>
             <!-- Add New Comment Form -->
             <?php if (isset($_SESSION['user_id'])): ?>
-                <form id="addCommentForm" class="mt-3" data-post-id="<?php echo $post['id']; ?>">
-                    <!-- Call the JavaScript function with post ID when button is clicked -->
+                <form action="add_comment.php" method="POST" class="mt-3">
+                    <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id']); ?>"> <!-- Hidden input for post ID -->
                     <div class="form-group">
-                        <textarea class="form-control" id="commentText" rows="3" placeholder="Add a comment..."></textarea>
+                        <textarea class="form-control" name="comment_text" rows="3" placeholder="Add a comment..." required></textarea>
                     </div>
                     <div class="form-button d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary mb-2" onclick="submitComment(<?php echo $post['id']; ?>)">
-                            Post Comment
-                        </button>
+                        <button type="submit" class="btn btn-primary mb-2">Post Comment</button>
                     </div>
                 </form>
 
@@ -56,10 +55,12 @@
             <!-- Display Existing Comments -->
             <div id="commentsList">
                 <?php
+                include '../includes/get_comments.php';
                 if (!empty($comments)):
                     foreach ($comments as $comment): ?>
                         <div class="comment mb-3">
                             <strong><?php echo htmlspecialchars($comment['username']); ?>:</strong>
+                            
                             <p><?php echo htmlspecialchars($comment['comment_text']); ?></p>
                             <span class="text-muted"><?php echo $comment['created_at']; ?></span>
                         </div>
@@ -76,77 +77,5 @@
     <?php endif; ?>
 </div>
 
-<!-- <script src="../js/comments.js"></script> -->
-<script>
-function submitComment(postId) {
-    const commentText = document.getElementById('commentText').value.trim();
-    if (!commentText) {
-        alert('Please enter a comment');
-        return;
-    }
-
-    // Data to send to the backend
-    const commentData = {
-        post_id: postId,
-        user_id: <?php echo json_encode($_SESSION['user_id']); ?>, // Get user_id from PHP session
-        content: commentText // Ensure this key is named "content" to match the PHP script
-    };
-
-    // Send a POST request to add_comment.php
-    fetch('add_comment.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(commentData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.status === 'success') {
-            // Clear the textarea
-            document.getElementById('commentText').value = '';
-            // Reload comments
-            loadComments(postId);
-        } else {
-            alert('Error adding comment: ' + (data.message || 'Unknown error'));
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-
-
-// Function to load comments dynamically
-function loadComments(postId) {
-    fetch(`get_comments.php?post_id=${postId}`)
-        .then(response => response.json())
-        .then(comments => {
-            const commentsList = document.getElementById('commentsList');
-            commentsList.innerHTML = ''; // Clear previous comments
-
-            if (comments.length > 0) {
-                comments.forEach(comment => {
-                    const commentDiv = document.createElement('div');
-                    commentDiv.classList.add('comment', 'mb-3');
-                    commentDiv.innerHTML = `
-                        <strong>${comment.username}:</strong>
-                        <p>${comment.content}</p>
-                        <span class="text-muted">${new Date(comment.created_at).toLocaleString()}</span>
-                    `;
-                    commentsList.appendChild(commentDiv);
-                });
-            } else {
-                commentsList.innerHTML = '<p>No comments yet. Be the first to comment!</p>';
-            }
-        })
-        .catch(error => console.error('Error fetching comments:', error));
-}
-
-</script>
 </body>
 </html>

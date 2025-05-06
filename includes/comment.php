@@ -1,12 +1,6 @@
 <?php
-header('Content-Type: application/json');
-$conn = new mysqli('localhost', 'root', '', 'comment_system');
-
-if ($conn->connect_error) {
-    die(json_encode(['success' => false, 'message' => 'Database connection failed']));
-}
-
 // Determine the action (fetch or add)
+include 'db_connection.php';
 $action = $_GET['action'] ?? '';
 
 if ($action === 'add') {

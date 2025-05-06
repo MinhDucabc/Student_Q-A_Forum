@@ -15,7 +15,7 @@
                         <h4 class="mb-0"><?= $is_edit ? 'Edit Your Post' : 'Create a New Post'; ?></h4>
                     </div>
                     <div class="card-body">
-                        <form action="<?php echo $is_edit ? 'post_edit.php?id=' . $post['id'] : 'post_create.php'; ?>" method="POST" enctype="multipart/form-data">
+                        <form action="<?php echo $is_edit ? 'post_edit.php?id=' . $post['id'] : 'post_create.php'; ?>" method="POST" enctype="multipart/form-data" novalidate>
                             <div class="form-group">
                                 <label for="title">Post Title</label>
                                 <input type="text" name="title" id="title" class="form-control" value="<?php echo isset($post['title']) ? htmlspecialchars($post['title']) : ''; ?>" required>
@@ -38,6 +38,13 @@
                                 <label for="image">Upload Image</label>
                                 <input type="file" name="image" id="image" class="form-control-file" >
                             </div>
+
+                            <?php if (!empty($error_messages)): ?>
+                                <?php foreach ($error_messages as $error_message): ?>
+                                    <p style="color:red;"><?= htmlspecialchars($error_message); ?></p>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+
                             <div class="form-group text-center mt-4">
                                 <button type="submit" class="btn btn-success">
                                     <?php echo $is_edit ? 'Update Post' : 'Create Post'; ?>

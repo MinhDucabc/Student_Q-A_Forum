@@ -12,10 +12,12 @@
         <h2 class="mb-4">User Profile</h2>
         <div class="card">
             <div class="card-body">
+                <a href="edit_profile.php" class="btn btn-warning float-end">Edit Profile</a>
                 <h5 class="card-title">Welcome, <?php echo htmlspecialchars($username); ?>!</h5>
                 <p class="card-text"><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
                 <p class="card-text"><strong>User ID:</strong> <?php echo htmlspecialchars($user_id); ?></p>
-
+                <p class="card-text"><strong>Role:</strong> <?php echo htmlspecialchars($role); ?></p>
+                
                 <a href="home.php" class="btn btn-primary mt-3">Back to Home</a>
                 <a href="logout.php" class="btn btn-secondary mt-3">Logout</a>
             </div>
