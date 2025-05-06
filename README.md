@@ -1,6 +1,7 @@
-![image](https://github.com/user-attachments/assets/19aa9e34-587d-4456-994e-40e9cccdf04d)# Student_Q-A_Forum
-A Forum for students to post questions and receive comments as answers
+
+
 # 🎓 Student Q&A Forum
+A Forum for students to post questions and receive comments as answers
 
 ## 📌 Project Title  
 **A forum for students to post questions and receive comments as answers.**
@@ -97,30 +98,28 @@ Open **XAMPP**, then:
 
 ### 🔐 Login / Signup
 - Enables students to create an account and log in securely.
-- 
 ![image](https://github.com/user-attachments/assets/426ced26-c09a-48e1-a9da-9bd98566a0c6)
 ![image](https://github.com/user-attachments/assets/1bab5f15-39fa-4dbd-9311-e9589e75dcd1)
 
 ### 🏠 Home
 - Displays a list of all questions, sortable by upvotes or time posted. Users can upvote or downvote questions.
-- 
 ![image](https://github.com/user-attachments/assets/2883aabe-dfdc-43b5-a93b-9907e79cbb50)
 
 ### ✍️ Create / Edit Question
 - Authenticated users can create new questions or edit their existing ones (CRUD functionality).
-- 
+
 ![image](https://github.com/user-attachments/assets/92e63c91-f07e-4aee-8f37-d771993bd518)
 ![image](https://github.com/user-attachments/assets/2437bf8b-c5e6-4b5b-80ff-7c6b52a31a22)
 
 
 ### ❓ Question Detail
 - Shows a single question in full detail, including its content, comments (if implemented).
-- 
+
 ![image](https://github.com/user-attachments/assets/e6c824b7-8685-413c-ada1-7c769a7abf9a)
 
 ### 👤 Profile
 - Each user can view and edit their own profile, including personal information and list of posted questions.
-- 
+
 ![image](https://github.com/user-attachments/assets/48e6338e-5966-4391-a078-7ed106492133)
 ![image](https://github.com/user-attachments/assets/487a3821-72d2-47d6-a71a-54f6cc2ce02a)
 
